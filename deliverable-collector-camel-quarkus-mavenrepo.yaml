@@ -1,0 +1,33 @@
+- job:
+    name: deliverable-collector-camel-quarkus-mavenrepo
+    project-type: pipeline
+    description: fuse job to register camel-quarkus maven license and source repo
+    folder: Productization
+    properties:
+        - copyartifact:
+            projects: "*"
+        - build-discarder:
+            num-to-keep: 150
+            artifact-num-to-keep: 1
+    parameters:
+        - string:
+            name: PROJECT_VERSION
+            default: 'fuse-8.5'
+            description: "Project version"
+        - string:
+            name: PROJECT_BUILD_TYPE
+            default: 'CK9'
+            description: "Project milestone (CK1, CK2, CK3 etc)"
+        - string:
+            name: CAMEL_QUARKUS_VERSION
+            default: "2.2.2"
+            descript: "The camel quarkus version (eg - 2.2.1, 2.2.2 etc)"
+        - string:
+            name: CAMEL_QUARKUS_MILESTONE
+            default: "AR3"
+            descript: "The camel quarkus milestone (eg - AR1, AR2, AR3"       
+    pipeline-scm:
+      scm:
+        - git:
+            !include: default-scm.yaml
+      script-path: productization/deliverable-collector-camel-quarkus-mavenrepo/Jenkinsfile

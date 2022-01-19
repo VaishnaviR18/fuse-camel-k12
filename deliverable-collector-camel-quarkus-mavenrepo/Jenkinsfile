@@ -1,0 +1,49 @@
+@Library('common-productization-pipelines@master') _
+
+stage("build") {
+	node("productization") {
+	    cleanWs()
+		def camelQuarkusVersion = params.CAMEL_QUARKUS_VERSION
+        def camelQuarkusMilestone = params.CAMEL_QUARKUS_MILESTONE
+		def productVersion = params.PROJECT_VERSION
+		def productBuild = params.PROJECT_BUILD_TYPE
+        def artifactType = "zip"
+        def deliveryState = "productization-completed"
+
+		def containerShortName = "curator-cli:latest"
+		def container = "docker-registry.upshift.redhat.com/fuse-containers/${containerShortName}"
+
+		stage("pull-image") {
+			containers.pull(container)
+		}
+
+		stage ("record artifacts") {
+
+            def doRegister(def artifactName, def artifactLocation){
+                retry(3) {
+                    def serverUrl = "${CURATOR_BACKEND_SERVER}"
+
+			        sh "docker run -e SERVER_URL=${serverUrl} ${container} curate " +
+				        "--release-name ${productVersion} --milestone-name ${productBuild} " +
+				        "--state-name ${deliveryState} --artifact-name ${artifactName} " +
+				        "--artifact-type ${artifactType} --artifact-version ${camelQuarkusVersion} " +
+				        "--artifact-location ${artifactLocation}"
+                }
+            }
+		
+            def mavenrepoArtifactname = "rhi-camel-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}-maven-repository"
+            def licenseArtifactname = "rhi-camel-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}-license"
+            def sourceArtiifactname = "rhi-camel-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}-src"
+
+            def mavenrepo = "http://download.eng.bos.redhat.com/rcm-guest/staging/integration/camel-extensions-for-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}/rhi-camel-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}-maven-repository.zip"
+            def license = "http://download.eng.bos.redhat.com/rcm-guest/staging/integration/camel-extensions-for-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}/rhi-camel-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}-license.zip"
+            def source = "http://download.eng.bos.redhat.com/rcm-guest/staging/integration/camel-extensions-for-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}/rhi-camel-quarkus-${camelQuarkusVersion}.${camelQuarkusMilestone}-src.zip"
+			
+            doRegister(mavenrepoArtifactname, mavenrepo)
+            doRegister(licenseArtifactname, license)
+            doRegister(sourceArtiifactname, source)
+	
+	    	cleanWs()
+	    }
+    }
+}   
