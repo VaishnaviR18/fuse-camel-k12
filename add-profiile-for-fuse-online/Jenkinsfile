@@ -5,8 +5,8 @@ node("productization") {
     def imageVersion = params.IMAGE_VERSION
     def clusterServiceVersion = params.CLUSTER_SERVICE_VERSION
     def upstreamBranch = params.UPSTREAM_BRANCH
-    def GITTOKEN = "Github18@123"
-    def GITUSERNAME = "M7XoaopSqZ0C5xNVH+SuvycgS1AngiG5MCWNmLzOvNk"
+    def GITTOKEN = "M7XoaopSqZ0C5xNVH+SuvycgS1AngiG5MCWNmLzOvNk"
+    def GITUSERNAME = "VaishnaviR18"
 
 	checkout([
 		$class: 'GitSCM', branches: [[name: '*/master']],
