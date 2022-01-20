@@ -8,7 +8,7 @@ node("productization") {
 
 	checkout([
 		$class: 'GitSCM', branches: [[name: '*/master']],
-		userRemoteConfigs: [[url: 'https://gitlab.cee.redhat.com/jboss-fuse-qe/fuse-structural-tests.git']]
+		userRemoteConfigs: [[url: 'https://github.com/VaishnaviR18/fuse-camel-k12.git']]
 	])
 
     stage("build") {
