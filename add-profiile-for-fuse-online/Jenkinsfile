@@ -1,0 +1,19 @@
+node("productization") {
+    cleanWs()
+
+    def profileId = params.PROFILE_ID
+    def imageVersion = params.IMAGE_VERSION
+    def clusterServiceVersion = params.CLUSTER_SERVICE_VERSION
+    def upstreamBranch = params.UPSTREAM_BRANCH
+
+	checkout([
+		$class: 'GitSCM', branches: [[name: '*/master']],
+		userRemoteConfigs: [[url: 'https://gitlab.cee.redhat.com/jboss-fuse-qe/fuse-structural-tests.git']]
+	])
+
+    stage("build") {
+		sh "./update-settings-xml.sh ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}"
+	}
+
+    cleanWs()
+}
