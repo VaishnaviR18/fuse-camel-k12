@@ -1,10 +1,4 @@
-node("productization") {
-    cleanWs()
-
-    def scmRevision = "syndesis-1.14.0.fuse-7_11_0-00001"
-    def version = "7.11.0.AR1"
-
-    
+@NonCPS
     def parseVersion(def versionString) {
         def pattern = ~/\d+/
         def matcher = (versionString =~ pattern)
@@ -13,7 +7,7 @@ node("productization") {
     return productVersion
     }
 
-    
+    @NonCPS
     def parseVersion1(def versionString) {
         def pattern = ~/\d+/
         def matcher = (versionString =~ pattern)
@@ -22,7 +16,7 @@ node("productization") {
     return productVersion
     }
 
-    
+    @NonCPS
     def parseVersion2(def versionString) {
         def pattern = ~/\d+/
         def matcher = (versionString =~ pattern)
@@ -30,6 +24,12 @@ node("productization") {
         def productVersion = matcher[0] + "." + matcher[1] + "." + matcher[2]
     return productVersion
     }
+
+node("productization") {
+    cleanWs()
+
+    def scmRevision = "syndesis-1.14.0.fuse-7_11_0-00001"
+    def version = "7.11.0.AR1"
 
     def profileId = parseVersion(version)
     def imageVersion = "1."+parseVersion1(version)
