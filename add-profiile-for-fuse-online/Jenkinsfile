@@ -12,7 +12,10 @@ node("productization") {
 	])
 
     stage("build") {
-		sh "./update-settings-xml.sh ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}  | tee build.log"
+        withCredentials([usernamePassword(credentialsId: 'github.com', usernameVariable: 'var', passwordVariable: 'Github18@123')]) {
+					sh "git config --local credential.helper \"!p() { echo username=\\\\var; echo password=\\\\Github18@123; }; p\""
+                    sh "./update-settings-xml.sh ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}  | tee build.log"
+				}
 	}
 
     cleanWs()
