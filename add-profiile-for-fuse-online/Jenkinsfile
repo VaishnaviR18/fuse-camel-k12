@@ -34,7 +34,7 @@ node("productization") {
     def profileId = parseVersion(version)
     def imageVersion = "1."+parseVersion1(version)
     def clusterServiceVersion = parseVersion2(version)
-    def upstreamBranch = "1."+parseVersion(scmRevision)+".x"
+    def upstreamBranch = parseVersion(scmRevision)+".x"
     def GITTOKEN = "SHA256:M7XoaopSqZ0C5xNVH+SuvycgS1AngiG5MCWNmLzOvNk"
     def GITUSERNAME = "VaishnaviR18"
 
