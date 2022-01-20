@@ -1,10 +1,39 @@
 node("productization") {
     cleanWs()
 
-    def profileId = params.PROFILE_ID
-    def imageVersion = params.IMAGE_VERSION
-    def clusterServiceVersion = params.CLUSTER_SERVICE_VERSION
-    def upstreamBranch = params.UPSTREAM_BRANCH
+    def scmRevision = "syndesis-1.14.0.fuse-7_11_0-00001"
+    def version = 7.11.0.AR1
+    @NonCPS
+    def parseVersion(def versionString) {
+        def pattern = ~/\d+/
+        def matcher = (versionString =~ pattern)
+        matcher.find()
+        def productVersion = matcher[0] + "." + matcher[1]
+    return productVersion
+    }
+
+    @NonCPS
+    def parseVersion1(def versionString) {
+        def pattern = ~/\d+/
+        def matcher = (versionString =~ pattern)
+        matcher.find()
+        def productVersion = matcher[1]
+    return productVersion
+    }
+
+    @NonCPS
+    def parseVersion2(def versionString) {
+        def pattern = ~/\d+/
+        def matcher = (versionString =~ pattern)
+        matcher.find()
+        def productVersion = matcher[0] + "." + matcher[1] + "." + matcher[2]
+    return productVersion
+    }
+
+    def profileId = parseVersion(version)
+    def imageVersion = "1."+parseVersion1(version)
+    def clusterServiceVersion = parseVersion2(version)
+    def upstreamBranch = "1."+parseVersion(scmRevision)+".x"
     def GITTOKEN = "SHA256:M7XoaopSqZ0C5xNVH+SuvycgS1AngiG5MCWNmLzOvNk"
     def GITUSERNAME = "VaishnaviR18"
 
