@@ -8,11 +8,11 @@ node("productization") {
 
 	checkout([
 		$class: 'GitSCM', branches: [[name: '*/master']],
-		userRemoteConfigs: [[url: 'https://github.com/VaishnaviR18/fuse-camel-k12.git']]
+		userRemoteConfigs: [[url: 'https://github.com/VaishnaviR18/fuse-camel-k11.git']]
 	])
 
     stage("build") {
-		sh "${workspace}/fuse-camel-k12.git/update-settings-xml.sh ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}  | tee build.log"
+		sh "${workspace}/fuse-camel-k11.git/update-settings-xml.sh ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}  | tee build.log"
 	}
 
     cleanWs()
