@@ -3,7 +3,8 @@ node("productization") {
 
     def scmRevision = "syndesis-1.14.0.fuse-7_11_0-00001"
     def version = "7.11.0.AR1"
-    @NonCPS
+
+    
     def parseVersion(def versionString) {
         def pattern = ~/\d+/
         def matcher = (versionString =~ pattern)
@@ -12,7 +13,7 @@ node("productization") {
     return productVersion
     }
 
-    @NonCPS
+    
     def parseVersion1(def versionString) {
         def pattern = ~/\d+/
         def matcher = (versionString =~ pattern)
@@ -21,7 +22,7 @@ node("productization") {
     return productVersion
     }
 
-    @NonCPS
+    
     def parseVersion2(def versionString) {
         def pattern = ~/\d+/
         def matcher = (versionString =~ pattern)
