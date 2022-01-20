@@ -13,8 +13,6 @@ node("productization") {
 		userRemoteConfigs: [[url: 'https://github.com/VaishnaviR18/fuse-camel-k11.git']]
 	])
 
-    git branch: master, url: "https://github.com/VaishnaviR18/fuse-camel-k11", credentialsId: "github.com"
-
     stage("build") {
         withCredentials([usernamePassword(credentialsId: 'github.com', usernameVariable: 'GITUSERNAME', passwordVariable: 'GITTOKEN')]) {
 					sh "git config --local credential.helper \"!p() { echo username=\\\\$GITUSERNAME; echo password=\\\\$GITTOKEN; }; p\""
