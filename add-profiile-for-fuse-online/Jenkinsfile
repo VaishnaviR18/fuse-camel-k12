@@ -44,9 +44,10 @@ node("productization") {
 	])
 
     stage("build") {
+        def filepath = "${WORKSPACE}/fuse-camel-k11/settings.xml"
         withCredentials([usernamePassword(credentialsId: 'github.com', usernameVariable: 'GITUSERNAME', passwordVariable: 'GITTOKEN')]) {
 					sh "git config --local credential.helper \"!p() { echo username=\\\\$GITUSERNAME; echo password=\\\\$GITTOKEN; }; p\""
-                    sh "./update-settings-xml.sh ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}  | tee build.log"
+                    sh "./productization/add-profiile-for-fuse-online/update-settings-xml.sh ${filepath} ${profileId} ${imageVersion} ${clusterServiceVersion} ${upstreamBranch}  | tee build.log"
 				}
 	}
 
